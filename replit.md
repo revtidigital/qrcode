@@ -108,6 +108,14 @@ Two main entities:
 ```
 Changelog:
 - June 16, 2025. Initial setup
+- June 16, 2025. Enhanced QR code functionality:
+  * Implemented QR Tiger-style contact pages with professional UI
+  * QR codes now generate short URLs (e.g., /contact/123) instead of vCard data
+  * Added modern gradient design with improved color contrast
+  * Implemented "Save to Contacts" functionality with vCard download
+  * Added direct action buttons for phone, email, and website
+  * Fixed file upload FormData handling issue
+  * Enhanced mobile-responsive contact display pages
 ```
 
 ## User Preferences

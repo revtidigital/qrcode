@@ -147,103 +147,119 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary-custom to-secondary-custom text-white p-6 pb-16">
-        <div className="max-w-md mx-auto text-center">
-          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <User className="h-12 w-12 text-white" />
+    <div className="min-h-screen bg-white">
+      {/* Header with enhanced gradient */}
+      <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-teal-500 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute top-0 left-0 w-72 h-72 bg-white/10 rounded-full -translate-x-36 -translate-y-36"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-48 translate-y-48"></div>
+        
+        <div className="relative max-w-md mx-auto text-center px-6 py-12">
+          <div className="w-28 h-28 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg ring-4 ring-white/20">
+            <User className="h-14 w-14 text-white" />
           </div>
-          <h1 className="text-2xl font-bold mb-1">{contact.name}</h1>
+          <h1 className="text-3xl font-bold mb-2 text-white drop-shadow-sm">{contact.name}</h1>
           {contact.position && (
-            <p className="text-white/90 text-lg">{contact.position}</p>
+            <p className="text-white/95 text-lg font-medium mb-1">{contact.position}</p>
           )}
           {contact.company && (
-            <p className="text-white/80">{contact.company}</p>
+            <p className="text-white/85 text-base">{contact.company}</p>
           )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-md mx-auto px-4 -mt-8">
-        <Card className="shadow-lg">
-          <CardContent className="p-6">
+      <div className="max-w-md mx-auto px-4 -mt-8 relative z-10">
+        <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+          <CardContent className="p-0">
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              {contact.phone && (
-                <Button
-                  onClick={() => handleCall(contact.phone!)}
-                  className="bg-primary-custom hover:bg-primary/90 h-16 flex flex-col gap-1"
-                >
-                  <Phone className="h-5 w-5" />
-                  <span className="text-sm">Phone</span>
-                </Button>
-              )}
-              {contact.website && (
-                <Button
-                  onClick={() => handleWebsite(contact.website!)}
-                  className="bg-secondary-custom hover:bg-secondary/90 h-16 flex flex-col gap-1"
-                >
-                  <Globe className="h-5 w-5" />
-                  <span className="text-sm">Website</span>
-                </Button>
-              )}
+            <div className="p-6 pb-4">
+              <div className="grid grid-cols-2 gap-4">
+                {contact.phone && (
+                  <Button
+                    onClick={() => handleCall(contact.phone!)}
+                    className="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white h-16 flex flex-col gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                  >
+                    <Phone className="h-5 w-5" />
+                    <span className="text-sm font-medium">Call</span>
+                  </Button>
+                )}
+                {contact.website && (
+                  <Button
+                    onClick={() => handleWebsite(contact.website!)}
+                    className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white h-16 flex flex-col gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                  >
+                    <Globe className="h-5 w-5" />
+                    <span className="text-sm font-medium">Website</span>
+                  </Button>
+                )}
+              </div>
             </div>
 
             {/* Contact Details */}
-            <div className="space-y-4">
-              {contact.phone && (
-                <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Phone className="h-5 w-5 text-primary-custom" />
-                  <div>
-                    <p className="text-sm text-gray-500">Phone</p>
-                    <p className="font-medium">{contact.phone}</p>
+            <div className="px-6 pb-6">
+              <div className="space-y-1">
+                {contact.phone && (
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer" onClick={() => handleCall(contact.phone!)}>
+                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                      <Phone className="h-5 w-5 text-indigo-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone</p>
+                      <p className="text-lg font-semibold text-gray-900">{contact.phone}</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {contact.email && (
-                <div 
-                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                  onClick={() => handleEmail(contact.email!)}
-                >
-                  <Mail className="h-5 w-5 text-primary-custom" />
-                  <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="font-medium">{contact.email}</p>
+                {contact.email && (
+                  <div 
+                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer"
+                    onClick={() => handleEmail(contact.email!)}
+                  >
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                      <Mail className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Email</p>
+                      <p className="text-lg font-semibold text-gray-900 break-all">{contact.email}</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {contact.company && (
-                <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Building className="h-5 w-5 text-primary-custom" />
-                  <div>
-                    <p className="text-sm text-gray-500">Company</p>
-                    <p className="font-medium">{contact.company}</p>
+                {contact.company && (
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                      <Building className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Company</p>
+                      <p className="text-lg font-semibold text-gray-900">{contact.company}</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {getFullAddress() && (
-                <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                  <MapPin className="h-5 w-5 text-primary-custom" />
-                  <div>
-                    <p className="text-sm text-gray-500">Address</p>
-                    <p className="font-medium">{getFullAddress()}</p>
+                {getFullAddress() && (
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group">
+                    <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center group-hover:bg-teal-200 transition-colors">
+                      <MapPin className="h-5 w-5 text-teal-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Address</p>
+                      <p className="text-lg font-semibold text-gray-900 leading-relaxed">{getFullAddress()}</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Save to Contacts Button */}
-            <div className="mt-6 pt-6 border-t">
+            <div className="p-6 pt-0">
               <Button
                 onClick={handleSaveToContacts}
-                className="w-full bg-success-custom hover:bg-success-custom/90 h-12"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white h-14 shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-lg"
                 size="lg"
               >
-                <Download className="h-5 w-5 mr-2" />
+                <Download className="h-6 w-6 mr-3" />
                 Save to Contacts
               </Button>
             </div>
@@ -251,11 +267,11 @@ export default function ContactPage() {
         </Card>
 
         {/* Footer */}
-        <div className="text-center py-6">
+        <div className="text-center py-8">
           <Button 
             onClick={() => window.location.href = '/'}
             variant="ghost"
-            className="text-gray-500 hover:text-primary-custom"
+            className="text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 font-medium transition-all duration-200"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to QR Generator
