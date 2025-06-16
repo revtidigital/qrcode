@@ -152,7 +152,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const vCardData = generateVCard(contact);
         
         try {
-          const qrCodeDataUrl = await QRCode.toDataURL(vCardData, {
+          // Create short URL for the contact page
+          const contactUrl = `${req.protocol}://${req.get('host')}/contact/${contact.id}`;
+          
+          const qrCodeDataUrl = await QRCode.toDataURL(contactUrl, {
             width: 300,
             margin: 2,
             color: {
@@ -186,6 +189,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Generation error:", error);
       await storage.updateBatch(req.params.batchId, { status: "failed" });
       res.status(500).json({ error: "Failed to generate QR codes" });
+    }
+  });
+
+  // Get individual contact details
+  app.get("/api/contacts/:contactId", async (req, res) => {
+    try {
+      const contactId = parseInt(req.params.contactId);
+      if (isNaN(contactId)) {
+        return res.status(400).json({ error: "Invalid contact ID" });
+      }
+
+      // Find contact across all batches - simplified approach
+      let foundContact = null;
+      const allContacts = Array.from((storage as any).contacts.values()) as any[];
+      foundContact = allContacts.find(c => c.id === contactId);
+
+      if (!foundContact) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      res.json(foundContact);
+    } catch (error) {
+      console.error("Contact fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch contact details" });
     }
   });
 
