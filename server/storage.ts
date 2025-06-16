@@ -93,11 +93,13 @@ export class MemStorage implements IStorage {
   }
 
   async deleteContactsByBatch(batchId: string): Promise<void> {
-    for (const [id, contact] of this.contacts.entries()) {
+    const contactsToDelete: number[] = [];
+    this.contacts.forEach((contact, id) => {
       if (contact.batchId === batchId) {
-        this.contacts.delete(id);
+        contactsToDelete.push(id);
       }
-    }
+    });
+    contactsToDelete.forEach(id => this.contacts.delete(id));
   }
 }
 
