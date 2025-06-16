@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertBatchSchema, insertContactSchema, fieldMappingSchema } from "@shared/schema";
@@ -35,7 +35,7 @@ function generateVCard(contact: any): string {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Upload and parse CSV/Excel file
-  app.post("/api/upload", upload.single('file'), async (req, res) => {
+  app.post("/api/upload", upload.single('file'), async (req: Request, res: Response) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
@@ -184,7 +184,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Generation error:", error);
-      await storage.updateBatch(batchId, { status: "failed" });
+      await storage.updateBatch(req.params.batchId, { status: "failed" });
       res.status(500).json({ error: "Failed to generate QR codes" });
     }
   });

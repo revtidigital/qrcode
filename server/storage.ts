@@ -31,6 +31,9 @@ export class MemStorage implements IStorage {
     const batch: Batch = { 
       ...insertBatch, 
       id,
+      processedContacts: insertBatch.processedContacts || 0,
+      status: insertBatch.status || "pending",
+      fieldMapping: insertBatch.fieldMapping || null,
       createdAt: new Date()
     };
     this.batches.set(insertBatch.batchId, batch);
@@ -55,6 +58,19 @@ export class MemStorage implements IStorage {
     const contact: Contact = { 
       ...insertContact, 
       id,
+      name: insertContact.name || "",
+      email: insertContact.email || null,
+      phone: insertContact.phone || null,
+      company: insertContact.company || null,
+      position: insertContact.position || null,
+      website: insertContact.website || null,
+      address: insertContact.address || null,
+      city: insertContact.city || null,
+      state: insertContact.state || null,
+      zipcode: insertContact.zipcode || null,
+      country: insertContact.country || null,
+      qrCodeUrl: insertContact.qrCodeUrl || null,
+      vCardData: insertContact.vCardData || null,
       createdAt: new Date()
     };
     this.contacts.set(id, contact);
