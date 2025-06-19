@@ -217,6 +217,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Download vCard for iOS compatibility
+  app.get("/api/contacts/:contactId/vcard", async (req, res) => {
+    try {
+      const contactId = parseInt(req.params.contactId);
+      if (isNaN(contactId)) {
+        return res.status(400).json({ error: "Invalid contact ID" });
+      }
+
+      // Find contact across all batches
+      let foundContact = null;
+      const allContacts = Array.from((storage as any).contacts.values()) as any[];
+      foundContact = allContacts.find(c => c.id === contactId);
+
+      if (!foundContact) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      const vCardData = generateVCard(foundContact);
+      
+      res.setHeader('Content-Type', 'text/vcard; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${foundContact.name || 'contact'}.vcf"`);
+      res.send(vCardData);
+    } catch (error) {
+      console.error("vCard download error:", error);
+      res.status(500).json({ error: "Failed to download vCard" });
+    }
+  });
+
   // Get batch details
   app.get("/api/batches/:batchId", async (req, res) => {
     try {
