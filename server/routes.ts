@@ -245,24 +245,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/qr/:contactId/download", async (req, res) => {
     try {
       const contactId = parseInt(req.params.contactId);
-      if (isNaN(contactId)) {
-        return res.status(400).json({ error: "Invalid contact ID" });
-      }
-
-      // Find contact across all batches - same approach as contact details endpoint
-      let foundContact = null;
-      const allContacts = Array.from((storage as any).contacts.values()) as any[];
-      foundContact = allContacts.find(c => c.id === contactId);
+      const contacts = await storage.getContactsByBatch(""); // We need to find by ID
+      const contact = Array.from(contacts).find(c => c.id === contactId);
       
-      if (!foundContact || !foundContact.qrCodeUrl) {
+      if (!contact || !contact.qrCodeUrl) {
         return res.status(404).json({ error: "QR code not found" });
       }
 
-      const base64Data = foundContact.qrCodeUrl.replace(/^data:image\/png;base64,/, "");
+      const base64Data = contact.qrCodeUrl.replace(/^data:image\/png;base64,/, "");
       const buffer = Buffer.from(base64Data, 'base64');
       
       res.setHeader('Content-Type', 'image/png');
-      res.setHeader('Content-Disposition', `attachment; filename="qr-${foundContact.name || contactId}.png"`);
+      res.setHeader('Content-Disposition', `attachment; filename="qr-${contact.name || contactId}.png"`);
       res.send(buffer);
     } catch (error) {
       console.error("Download error:", error);
