@@ -116,13 +116,6 @@ Changelog:
   * Added direct action buttons for phone, email, and website
   * Fixed file upload FormData handling issue
   * Enhanced mobile-responsive contact display pages
-- June 20, 2025. Multiple phone number support:
-  * Added IC Universal Legal logo to contact landing pages
-  * Added support for secondary phone numbers in schema and UI
-  * Enhanced field mapping to include Phone (Secondary) option
-  * Updated vCard generation to include both phone numbers with proper types
-  * Fixed QR code download functionality for individual contacts
-  * Contact pages now display multiple phone numbers with distinct styling
 ```
 
 ## User Preferences

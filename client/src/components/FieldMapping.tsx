@@ -16,8 +16,7 @@ interface FieldMappingProps {
 const vCardFields = [
   { value: "name", label: "Name (FN)" },
   { value: "email", label: "Email" },
-  { value: "phone", label: "Phone (Primary)" },
-  { value: "phone2", label: "Phone (Secondary)" },
+  { value: "phone", label: "Phone" },
   { value: "company", label: "Organization" },
   { value: "position", label: "Title/Position" },
   { value: "website", label: "Website/URL" },
