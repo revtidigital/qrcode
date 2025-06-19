@@ -6,7 +6,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { generateVCard } from "@/lib/vcard";
-import logoPath from "@assets/icul-logo-horizontal-color-1_1750138201608.png";
 
 interface ContactData {
   id: number;
@@ -164,17 +163,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Logo Section */}
-      <div className="bg-white py-4 px-6 border-b border-gray-100">
-        <div className="max-w-md mx-auto text-center">
-          <img 
-            src={logoPath} 
-            alt="IC Universal Legal" 
-            className="h-12 mx-auto object-contain"
-          />
-        </div>
-      </div>
-
       {/* Header with enhanced gradient */}
       <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-teal-500 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
@@ -188,9 +176,6 @@ export default function ContactPage() {
           <h1 className="text-3xl font-bold mb-2 text-white drop-shadow-sm">{contact.name}</h1>
           {contact.position && (
             <p className="text-white/95 text-lg font-medium mb-1">{contact.position}</p>
-          )}
-          {contact.company && (
-            <p className="text-white/85 text-base">{contact.company}</p>
           )}
         </div>
       </div>
