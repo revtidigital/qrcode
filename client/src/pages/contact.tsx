@@ -13,6 +13,7 @@ interface ContactData {
   name: string;
   email?: string;
   phone?: string;
+  phone2?: string;
   company?: string;
   position?: string;
   website?: string;
@@ -54,34 +55,48 @@ export default function ContactPage() {
   const handleSaveToContacts = () => {
     if (!contact) return;
 
-    const vCardData = generateVCard({
-      name: contact.name,
-      email: contact.email,
-      phone: contact.phone,
-      company: contact.company,
-      position: contact.position,
-      website: contact.website,
-      address: contact.address,
-      city: contact.city,
-      state: contact.state,
-      zipcode: contact.zipcode,
-      country: contact.country,
-    });
+    // Check if this is iOS Safari
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isIOS) {
+      // For iOS, directly navigate to the vCard endpoint
+      window.location.href = `/api/contacts/${contact.id}/vcard`;
+      toast({
+        title: "Downloading contact",
+        description: "The contact file will be downloaded. Tap to open it and add to your contacts.",
+      });
+    } else {
+      // For other browsers, use the blob method
+      const vCardData = generateVCard({
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        phone2: contact.phone2,
+        company: contact.company,
+        position: contact.position,
+        website: contact.website,
+        address: contact.address,
+        city: contact.city,
+        state: contact.state,
+        zipcode: contact.zipcode,
+        country: contact.country,
+      });
 
-    const blob = new Blob([vCardData], { type: 'text/vcard' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${contact.name || 'contact'}.vcf`;
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+      const blob = new Blob([vCardData], { type: 'text/vcard' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${contact.name || 'contact'}.vcf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
 
-    toast({
-      title: "Contact saved",
-      description: "Contact has been downloaded to your device",
-    });
+      toast({
+        title: "Contact saved",
+        description: "Contact has been downloaded to your device",
+      });
+    }
   };
 
   const handleCall = (phone: string) => {
@@ -206,6 +221,19 @@ export default function ContactPage() {
                   </Button>
                 )}
               </div>
+              
+              {/* Secondary phone number button if available */}
+              {contact.phone2 && (
+                <div className="mt-4">
+                  <Button
+                    onClick={() => handleCall(contact.phone2!)}
+                    className="w-full bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 text-white h-12 flex items-center justify-center gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                  >
+                    <Phone className="h-4 w-4" />
+                    <span className="text-sm font-medium">Call Secondary</span>
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Contact Details */}
@@ -217,8 +245,20 @@ export default function ContactPage() {
                       <Phone className="h-5 w-5 text-indigo-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone {contact.phone2 ? '(Primary)' : ''}</p>
                       <p className="text-lg font-semibold text-gray-900">{contact.phone}</p>
+                    </div>
+                  </div>
+                )}
+
+                {contact.phone2 && (
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer" onClick={() => handleCall(contact.phone2!)}>
+                    <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center group-hover:bg-violet-200 transition-colors">
+                      <Phone className="h-5 w-5 text-violet-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone (Secondary)</p>
+                      <p className="text-lg font-semibold text-gray-900">{contact.phone2}</p>
                     </div>
                   </div>
                 )}
@@ -274,6 +314,17 @@ export default function ContactPage() {
                 <Download className="h-6 w-6 mr-3" />
                 Save to Contacts
               </Button>
+
+              {/* Alternative direct vCard link for iOS */}
+              <div className="mt-3 text-center">
+                <a 
+                  href={`/api/contacts/${contact.id}/vcard`}
+                  className="text-sm text-gray-600 hover:text-gray-800 underline"
+                  download={`${contact.name || 'contact'}.vcf`}
+                >
+                  Direct vCard Download
+                </a>
+              </div>
             </div>
           </CardContent>
         </Card>

@@ -17,20 +17,57 @@ const upload = multer({
 });
 
 function generateVCard(contact: any): string {
-  const vcard = [
-    'BEGIN:VCARD',
-    'VERSION:3.0',
-    `FN:${contact.name || ''}`,
-    contact.email ? `EMAIL:${contact.email}` : '',
-    contact.phone ? `TEL:${contact.phone}` : '',
-    contact.company ? `ORG:${contact.company}` : '',
-    contact.position ? `TITLE:${contact.position}` : '',
-    contact.website ? `URL:${contact.website}` : '',
-    contact.address ? `ADR:;;${contact.address};${contact.city || ''};${contact.state || ''};${contact.zipcode || ''};${contact.country || ''}` : '',
-    'END:VCARD'
-  ].filter(line => line && !line.endsWith(':')).join('\n');
+  const lines = ['BEGIN:VCARD', 'VERSION:3.0'];
   
-  return vcard;
+  // Name is required
+  if (contact.name) {
+    lines.push(`FN:${contact.name}`);
+    lines.push(`N:${contact.name};;;;`); // Last;First;Middle;Prefix;Suffix
+  }
+  
+  // Email
+  if (contact.email) {
+    lines.push(`EMAIL;TYPE=INTERNET:${contact.email}`);
+  }
+  
+  // Phone numbers
+  if (contact.phone) {
+    lines.push(`TEL;TYPE=CELL:${contact.phone}`);
+  }
+  if (contact.phone2) {
+    lines.push(`TEL;TYPE=WORK:${contact.phone2}`);
+  }
+  
+  // Organization and title
+  if (contact.company) {
+    lines.push(`ORG:${contact.company}`);
+  }
+  if (contact.position) {
+    lines.push(`TITLE:${contact.position}`);
+  }
+  
+  // Website
+  if (contact.website) {
+    lines.push(`URL:${contact.website}`);
+  }
+  
+  // Address
+  if (contact.address || contact.city || contact.state || contact.zipcode || contact.country) {
+    const addrParts = [
+      '', // PO Box
+      '', // Extended Address
+      contact.address || '',
+      contact.city || '',
+      contact.state || '',
+      contact.zipcode || '',
+      contact.country || ''
+    ];
+    lines.push(`ADR;TYPE=WORK:${addrParts.join(';')}`);
+  }
+  
+  lines.push('END:VCARD');
+  
+  return lines.join('\r\n');
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -216,6 +253,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Download vCard for iOS compatibility
+  app.get("/api/contacts/:contactId/vcard", async (req, res) => {
+    try {
+      const contactId = parseInt(req.params.contactId);
+      if (isNaN(contactId)) {
+        return res.status(400).json({ error: "Invalid contact ID" });
+      }
+
+      // Find contact across all batches
+      let foundContact = null;
+      const allContacts = Array.from((storage as any).contacts.values()) as any[];
+      foundContact = allContacts.find(c => c.id === contactId);
+
+      if (!foundContact) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      const vCardData = generateVCard(foundContact);
+      
+      // iOS-compatible headers
+      res.setHeader('Content-Type', 'text/x-vcard; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${(foundContact.name || 'contact').replace(/[^a-zA-Z0-9]/g, '_')}.vcf"`);
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Pragma', 'no-cache');
+      res.send(vCardData);
+    } catch (error) {
+      console.error("vCard download error:", error);
+      res.status(500).json({ error: "Failed to download vCard" });
+    }
+  });
+
   // Get batch details
   app.get("/api/batches/:batchId", async (req, res) => {
     try {
@@ -245,18 +313,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/qr/:contactId/download", async (req, res) => {
     try {
       const contactId = parseInt(req.params.contactId);
-      const contacts = await storage.getContactsByBatch(""); // We need to find by ID
-      const contact = Array.from(contacts).find(c => c.id === contactId);
+      if (isNaN(contactId)) {
+        return res.status(400).json({ error: "Invalid contact ID" });
+      }
+
+      // Find contact across all batches - same approach as contact details endpoint
+      let foundContact = null;
+      const allContacts = Array.from((storage as any).contacts.values()) as any[];
+      foundContact = allContacts.find(c => c.id === contactId);
       
-      if (!contact || !contact.qrCodeUrl) {
+      if (!foundContact || !foundContact.qrCodeUrl) {
         return res.status(404).json({ error: "QR code not found" });
       }
 
-      const base64Data = contact.qrCodeUrl.replace(/^data:image\/png;base64,/, "");
+      const base64Data = foundContact.qrCodeUrl.replace(/^data:image\/png;base64,/, "");
       const buffer = Buffer.from(base64Data, 'base64');
       
       res.setHeader('Content-Type', 'image/png');
-      res.setHeader('Content-Disposition', `attachment; filename="qr-${contact.name || contactId}.png"`);
+      res.setHeader('Content-Disposition', `attachment; filename="qr-${foundContact.name || contactId}.png"`);
       res.send(buffer);
     } catch (error) {
       console.error("Download error:", error);
