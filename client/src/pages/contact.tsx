@@ -55,62 +55,33 @@ export default function ContactPage() {
   const handleSaveToContacts = () => {
     if (!contact) return;
 
-    const vCardData = generateVCard({
-      name: contact.name,
-      email: contact.email,
-      phone: contact.phone,
-      phone2: contact.phone2,
-      company: contact.company,
-      position: contact.position,
-      website: contact.website,
-      address: contact.address,
-      city: contact.city,
-      state: contact.state,
-      zipcode: contact.zipcode,
-      country: contact.country,
-    });
-
     // Check if this is iOS Safari
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     
-    if (isIOS || isSafari) {
-      // For iOS/Safari, use server endpoint for better compatibility
-      const vCardUrl = `/api/contacts/${contact.id}/vcard`;
-      const newWindow = window.open('', '_blank');
-      if (newWindow) {
-        newWindow.document.write(`
-          <html>
-            <head>
-              <title>Save Contact</title>
-              <meta name="viewport" content="width=device-width, initial-scale=1">
-            </head>
-            <body style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; text-align: center;">
-              <h2>Save Contact</h2>
-              <p>To save this contact to your phone:</p>
-              <ol style="text-align: left; max-width: 300px; margin: 0 auto;">
-                <li>Tap the download link below</li>
-                <li>When the file downloads, tap to open it</li>
-                <li>Tap "Add Contact" when prompted</li>
-              </ol>
-              <br>
-              <a href="${vCardUrl}" 
-                 style="display: inline-block; background: #007AFF; color: white; padding: 12px 24px; 
-                        text-decoration: none; border-radius: 8px; font-weight: bold;">
-                Download Contact (.vcf)
-              </a>
-              <br><br>
-              <button onclick="window.close()" 
-                      style="background: #8E8E93; color: white; border: none; padding: 8px 16px; 
-                             border-radius: 6px; cursor: pointer;">
-                Close
-              </button>
-            </body>
-          </html>
-        `);
-      }
+    if (isIOS) {
+      // For iOS, directly navigate to the vCard endpoint
+      window.location.href = `/api/contacts/${contact.id}/vcard`;
+      toast({
+        title: "Downloading contact",
+        description: "The contact file will be downloaded. Tap to open it and add to your contacts.",
+      });
     } else {
-      // For other browsers, use the original blob method
+      // For other browsers, use the blob method
+      const vCardData = generateVCard({
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        phone2: contact.phone2,
+        company: contact.company,
+        position: contact.position,
+        website: contact.website,
+        address: contact.address,
+        city: contact.city,
+        state: contact.state,
+        zipcode: contact.zipcode,
+        country: contact.country,
+      });
+
       const blob = new Blob([vCardData], { type: 'text/vcard' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -120,12 +91,12 @@ export default function ContactPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    }
 
-    toast({
-      title: "Contact ready to save",
-      description: isIOS || isSafari ? "Follow the instructions to save on iOS" : "Contact has been downloaded to your device",
-    });
+      toast({
+        title: "Contact saved",
+        description: "Contact has been downloaded to your device",
+      });
+    }
   };
 
   const handleCall = (phone: string) => {
