@@ -6,11 +6,6 @@ export interface VCardContact {
   company?: string;
   position?: string;
   website?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipcode?: string;
-  country?: string;
 }
 
 export function generateVCard(contact: VCardContact): string {
@@ -48,19 +43,7 @@ export function generateVCard(contact: VCardContact): string {
     lines.push(`URL:${contact.website}`);
   }
   
-  // Address
-  if (contact.address || contact.city || contact.state || contact.zipcode || contact.country) {
-    const addrParts = [
-      '', // PO Box
-      '', // Extended Address
-      contact.address || '',
-      contact.city || '',
-      contact.state || '',
-      contact.zipcode || '',
-      contact.country || ''
-    ];
-    lines.push(`ADR;TYPE=WORK:${addrParts.join(';')}`);
-  }
+
   
   lines.push('END:VCARD');
   
@@ -94,17 +77,7 @@ export function parseVCard(vcardString: string): VCardContact {
       case 'URL':
         contact.website = value;
         break;
-      case 'ADR':
-        // Parse address format: ;;street;city;state;zip;country
-        const addressParts = value.split(';');
-        if (addressParts.length >= 7) {
-          contact.address = addressParts[2];
-          contact.city = addressParts[3];
-          contact.state = addressParts[4];
-          contact.zipcode = addressParts[5];
-          contact.country = addressParts[6];
-        }
-        break;
+
     }
   }
 

@@ -11,11 +11,6 @@ export const contacts = pgTable("contacts", {
   company: text("company"),
   position: text("position"),
   website: text("website"),
-  address: text("address"),
-  city: text("city"),
-  state: text("state"),
-  zipcode: text("zipcode"),
-  country: text("country"),
   qrCodeUrl: text("qr_code_url"),
   vCardData: text("vcard_data"),
   batchId: text("batch_id").notNull(),
@@ -51,11 +46,6 @@ export const fieldMappingSchema = z.object({
   company: z.string().optional(),
   position: z.string().optional(),
   website: z.string().optional(),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  zipcode: z.string().optional(),
-  country: z.string().optional(),
 });
 
 export type Contact = typeof contacts.$inferSelect;

@@ -21,11 +21,6 @@ const vCardFields = [
   { value: "company", label: "Organization" },
   { value: "position", label: "Title/Position" },
   { value: "website", label: "Website/URL" },
-  { value: "address", label: "Address" },
-  { value: "city", label: "City" },
-  { value: "state", label: "State" },
-  { value: "zipcode", label: "ZIP Code" },
-  { value: "country", label: "Country" },
 ];
 
 export default function FieldMapping({ headers, preview, batchId, onMappingComplete }: FieldMappingProps) {

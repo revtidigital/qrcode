@@ -123,6 +123,10 @@ Changelog:
   * Updated vCard generation to include both phone numbers with proper types
   * Fixed QR code download functionality for individual contacts
   * Contact pages now display multiple phone numbers with distinct styling
+  * Improved iOS vCard compatibility with proper MIME types and headers
+  * Removed logo and company name from contact page header per user request
+  * Removed all address-related fields (address, city, state, country, zipcode) from entire codebase
+  * Simplified contact schema to focus on essential contact information only
 ```
 
 ## User Preferences

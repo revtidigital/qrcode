@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
-import { User, Phone, Mail, Building, Globe, MapPin, Download, ArrowLeft } from "lucide-react";
+import { User, Phone, Mail, Building, Globe, Download, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,11 +16,6 @@ interface ContactData {
   company?: string;
   position?: string;
   website?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipcode?: string;
-  country?: string;
 }
 
 export default function ContactPage() {
@@ -74,11 +69,6 @@ export default function ContactPage() {
         company: contact.company,
         position: contact.position,
         website: contact.website,
-        address: contact.address,
-        city: contact.city,
-        state: contact.state,
-        zipcode: contact.zipcode,
-        country: contact.country,
       });
 
       const blob = new Blob([vCardData], { type: 'text/vcard' });
@@ -111,16 +101,7 @@ export default function ContactPage() {
     window.open(url, '_blank');
   };
 
-  const getFullAddress = () => {
-    const parts = [
-      contact?.address,
-      contact?.city,
-      contact?.state,
-      contact?.zipcode,
-      contact?.country
-    ].filter(Boolean);
-    return parts.join(', ');
-  };
+
 
   if (loading) {
     return (
@@ -275,17 +256,7 @@ export default function ContactPage() {
                   </div>
                 )}
 
-                {getFullAddress() && (
-                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group">
-                    <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center group-hover:bg-teal-200 transition-colors">
-                      <MapPin className="h-5 w-5 text-teal-600" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Address</p>
-                      <p className="text-lg font-semibold text-gray-900 leading-relaxed">{getFullAddress()}</p>
-                    </div>
-                  </div>
-                )}
+
               </div>
             </div>
 

@@ -51,19 +51,7 @@ function generateVCard(contact: any): string {
     lines.push(`URL:${contact.website}`);
   }
   
-  // Address
-  if (contact.address || contact.city || contact.state || contact.zipcode || contact.country) {
-    const addrParts = [
-      '', // PO Box
-      '', // Extended Address
-      contact.address || '',
-      contact.city || '',
-      contact.state || '',
-      contact.zipcode || '',
-      contact.country || ''
-    ];
-    lines.push(`ADR;TYPE=WORK:${addrParts.join(';')}`);
-  }
+
   
   lines.push('END:VCARD');
   
