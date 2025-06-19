@@ -2,6 +2,7 @@ export interface VCardContact {
   name?: string;
   email?: string;
   phone?: string;
+  phone2?: string;
   company?: string;
   position?: string;
   website?: string;
@@ -18,7 +19,8 @@ export function generateVCard(contact: VCardContact): string {
     'VERSION:3.0',
     contact.name ? `FN:${contact.name}` : '',
     contact.email ? `EMAIL:${contact.email}` : '',
-    contact.phone ? `TEL:${contact.phone}` : '',
+    contact.phone ? `TEL;TYPE=CELL:${contact.phone}` : '',
+    contact.phone2 ? `TEL;TYPE=WORK:${contact.phone2}` : '',
     contact.company ? `ORG:${contact.company}` : '',
     contact.position ? `TITLE:${contact.position}` : '',
     contact.website ? `URL:${contact.website}` : '',
