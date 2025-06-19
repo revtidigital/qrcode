@@ -77,7 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const csvText = buffer.toString('utf-8');
         const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
         data = parsed.data as any[];
-        headers = parsed.meta.fields || [];
+        headers = (parsed.meta.fields || []).filter(header => header && header.trim() !== '');
       } else if (mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
                  mimetype === 'application/vnd.ms-excel' ||
                  originalname.endsWith('.xlsx') || originalname.endsWith('.xls')) {
@@ -86,7 +86,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const worksheet = workbook.Sheets[sheetName];
         data = XLSX.utils.sheet_to_json(worksheet);
         if (data.length > 0) {
-          headers = Object.keys(data[0]);
+          headers = Object.keys(data[0]).filter(header => header && header.trim() !== '');
         }
       } else {
         return res.status(400).json({ error: "Unsupported file format. Please upload CSV or Excel files." });

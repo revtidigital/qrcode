@@ -74,7 +74,7 @@ export default function FieldMapping({ headers, preview, batchId, onMappingCompl
           <div>
             <h4 className="font-medium text-primary-custom mb-3">Your CSV Columns</h4>
             <div className="space-y-2">
-              {headers.map((header) => (
+              {headers.filter(header => header && header.trim() !== '').map((header) => (
                 <div key={header} className="bg-gray-50 p-3 rounded-lg border border-gray-200">
                   <span className="font-mono text-sm">{header}</span>
                 </div>
@@ -96,7 +96,7 @@ export default function FieldMapping({ headers, preview, batchId, onMappingCompl
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">No mapping</SelectItem>
-                    {headers.map((header) => (
+                    {headers.filter(header => header && header.trim() !== '').map((header) => (
                       <SelectItem key={header} value={header}>
                         {header}
                       </SelectItem>
@@ -116,7 +116,7 @@ export default function FieldMapping({ headers, preview, batchId, onMappingCompl
               <table className="min-w-full divide-y divide-gray-200 text-sm">
                 <thead className="bg-gray-50">
                   <tr>
-                    {headers.slice(0, 5).map((header) => (
+                    {headers.filter(header => header && header.trim() !== '').slice(0, 5).map((header) => (
                       <th key={header} className="px-4 py-2 text-left font-medium text-gray-500">
                         {header}
                       </th>
@@ -126,7 +126,7 @@ export default function FieldMapping({ headers, preview, batchId, onMappingCompl
                 <tbody className="bg-white divide-y divide-gray-200">
                   {preview.slice(0, 3).map((row, index) => (
                     <tr key={index}>
-                      {headers.slice(0, 5).map((header) => (
+                      {headers.filter(header => header && header.trim() !== '').slice(0, 5).map((header) => (
                         <td key={header} className="px-4 py-2 text-gray-900">
                           {row[header]?.toString().substring(0, 30)}
                           {row[header]?.toString().length > 30 ? '...' : ''}
