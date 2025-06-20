@@ -184,8 +184,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             width: 300,
             margin: 2,
             color: {
-              dark: '#000000',
-              light: '#FFFFFF'
+              dark: '#FFFFFF',
+              light: 'transparent'
             }
           });
 
