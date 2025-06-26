@@ -147,6 +147,10 @@ Changelog:
   * Updated template CSV file to remove address fields and include proper column structure
   * Changed phone number prefix from '+' to '0' for both primary and secondary numbers
   * Fixed batch processing limitation - now processes complete datasets instead of 5-contact preview limit
+  * Fixed QR code visibility with black backgrounds in preview grid and popup windows
+  * Implemented custom brand colors throughout contact landing pages using client's color palette
+  * Prepared complete deployment configuration for GitHub, Netlify (backend), and Vercel (frontend)
+  * Created comprehensive deployment documentation and build scripts
 ```
 
 ## User Preferences
