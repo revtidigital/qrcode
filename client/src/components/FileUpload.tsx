@@ -146,11 +146,11 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
               <p className="text-gray-600 mb-4">Download our sample CSV template with the correct column headers</p>
               <div className="flex flex-wrap gap-2 text-sm text-gray-500">
                 <span className="bg-gray-100 px-2 py-1 rounded">Name</span>
-                <span className="bg-gray-100 px-2 py-1 rounded">Phone</span>
                 <span className="bg-gray-100 px-2 py-1 rounded">Email</span>
+                <span className="bg-gray-100 px-2 py-1 rounded">Primary Phone</span>
+                <span className="bg-gray-100 px-2 py-1 rounded">Secondary Phone</span>
                 <span className="bg-gray-100 px-2 py-1 rounded">Company</span>
                 <span className="bg-gray-100 px-2 py-1 rounded">Position</span>
-                <span className="bg-gray-100 px-2 py-1 rounded">Address</span>
                 <span className="bg-gray-100 px-2 py-1 rounded">Website</span>
               </div>
             </div>
