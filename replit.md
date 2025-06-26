@@ -147,6 +147,7 @@ Changelog:
   * Updated template CSV file to remove address fields and include proper column structure
   * Changed phone number prefix from '+' to '0' for both primary and secondary numbers
   * Fixed batch processing limitation - now processes complete datasets instead of 5-contact preview limit
+  * Added complete frontend password protection with username "admin" and password "admin@2025"
 ```
 
 ## User Preferences
