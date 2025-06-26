@@ -198,7 +198,7 @@ export default function ContactPage() {
                 <div className="mt-4">
                   <Button
                     onClick={() => handleCall(contact.phone2!)}
-                    className="w-full bg-gradient-to-r from-[#D35D30] to-[#BC412D] hover:from-[#BC412D] hover:to-[#D35D30] text-white h-12 flex items-center justify-center gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                    className="w-full bg-gradient-to-r from-[#BC412D] to-[#1E3460] hover:from-[#1E3460] hover:to-[#BC412D] text-white h-12 flex items-center justify-center gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
                   >
                     <Phone className="h-4 w-4" />
                     <span className="text-sm font-medium">Call Secondary</span>
