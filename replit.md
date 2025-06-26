@@ -33,12 +33,16 @@ The application follows a monorepo structure with clear separation:
 - **File Processing**: Multer for file uploads, xlsx and papaparse for file parsing
 - **QR Code Generation**: QRCode library for generating QR codes
 - **Archive Creation**: Archiver for creating ZIP downloads
-- **Storage**: Abstracted storage interface with in-memory implementation
+- **Storage**: Abstracted storage interface with MongoDB implementation for persistent data
 
 ### Database Schema
-Two main entities:
+Two main entities stored in MongoDB:
 - **Batches**: Track file upload sessions and processing status
 - **Contacts**: Store individual contact information and generated QR codes
+
+MongoDB Collections:
+- `batches` - Batch metadata and processing status
+- `contacts` - Individual contact records with QR code data
 
 ## Data Flow
 

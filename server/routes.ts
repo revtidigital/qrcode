@@ -225,10 +225,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid contact ID" });
       }
 
-      // Find contact across all batches - simplified approach
-      let foundContact = null;
-      const allContacts = Array.from((storage as any).contacts.values()) as any[];
-      foundContact = allContacts.find(c => c.id === contactId);
+      const foundContact = await storage.getContactById(contactId);
 
       if (!foundContact) {
         return res.status(404).json({ error: "Contact not found" });
