@@ -216,10 +216,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           const qrCodeDataUrl = await QRCode.toDataURL(contactUrl, {
             width: 300,
-            margin: 2,
+            margin: 0,
             color: {
               dark: '#FFFFFF',
-              light: '#000000'
+              light: '#FFFFFF00'
             }
           });
 
