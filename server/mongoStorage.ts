@@ -12,7 +12,11 @@ export class MongoStorage implements IStorage {
   constructor() {
     const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {
-      throw new Error('MONGODB_URI environment variable is required');
+      console.warn('MONGODB_URI environment variable not found - MongoDB features will be disabled');
+      // Create a dummy client that will fail connection attempts gracefully
+      this.client = new MongoClient('mongodb://localhost:27017', {});
+      this.db = this.client.db('vcards_icul');
+      return;
     }
     
     // Configure MongoDB client for Atlas compatibility
