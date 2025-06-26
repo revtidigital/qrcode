@@ -17,9 +17,9 @@ const upload = multer({
 });
 
 function generateVCard(contact: any): string {
-  const lines = ['BEGIN:VCARD', 'VERSION:3.0'];
+  const lines = ['BEGIN:VCARD', 'VERSION:2.1'];
   
-  // Name is required - properly parse and format for iOS/Android
+  // Name is required - Android-specific formatting
   if (contact.name) {
     const fullName = contact.name.trim();
     const nameParts = fullName.split(/\s+/);
@@ -39,35 +39,41 @@ function generateVCard(contact: any): string {
       lastName = nameParts.slice(1).join(' ');
     }
     
-    // Escape special characters
-    const escapedFirstName = firstName.replace(/[,;\\]/g, '\\$&');
-    const escapedLastName = lastName.replace(/[,;\\]/g, '\\$&');
-    const escapedFullName = fullName.replace(/[,;\\]/g, '\\$&');
+    // For Android compatibility, use simple escaping and ensure proper order
+    const cleanFirstName = firstName.replace(/[;,\\]/g, ' ').trim();
+    const cleanLastName = lastName.replace(/[;,\\]/g, ' ').trim();
+    const cleanFullName = fullName.replace(/[;,\\]/g, ' ').trim();
     
-    lines.push(`FN:${escapedFullName}`);
-    lines.push(`N:${escapedLastName};${escapedFirstName};;;`); // Last;First;Middle;Prefix;Suffix
+    // Android prefers N field before FN field and specific formatting
+    lines.push(`N:${cleanLastName};${cleanFirstName};;;`);
+    lines.push(`FN:${cleanFullName}`);
+    
+    // Add Android-specific name fields for better compatibility
+    if (cleanFirstName) {
+      lines.push(`X-ANDROID-CUSTOM:vnd.android.cursor.item/name;${cleanFirstName};1;;;;;;;;;;;;;`);
+    }
   }
   
-  // Email with proper iOS formatting
+  // Email with Android/iOS compatibility
   if (contact.email) {
-    lines.push(`EMAIL;TYPE=INTERNET,PREF:${contact.email}`);
+    lines.push(`EMAIL;INTERNET:${contact.email}`);
   }
   
-  // Phone numbers with iOS-preferred formatting
+  // Phone numbers with Android compatibility
   if (contact.phone) {
-    lines.push(`TEL;TYPE=CELL,VOICE,PREF:${contact.phone}`);
+    lines.push(`TEL;CELL:${contact.phone}`);
   }
   if (contact.phone2) {
-    lines.push(`TEL;TYPE=WORK,VOICE:${contact.phone2}`);
+    lines.push(`TEL;WORK:${contact.phone2}`);
   }
   
-  // Organization and title with proper escaping
+  // Organization and title with Android compatibility
   if (contact.company) {
-    const company = contact.company.replace(/[,;\\]/g, '\\$&');
+    const company = contact.company.replace(/[;,\\]/g, ' ').trim();
     lines.push(`ORG:${company}`);
   }
   if (contact.position) {
-    const position = contact.position.replace(/[,;\\]/g, '\\$&');
+    const position = contact.position.replace(/[;,\\]/g, ' ').trim();
     lines.push(`TITLE:${position}`);
   }
   
