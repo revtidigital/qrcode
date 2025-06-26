@@ -101,7 +101,9 @@ export default function QRPreviewGrid({ batchId, onReset }: QRPreviewGridProps) 
           <body style="display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f5f5f5;">
             <div style="text-align: center; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
               <h2 style="margin-bottom: 1rem; color: #333;">${contact.name}</h2>
-              <img src="${contact.qrCodeUrl}" alt="QR Code" style="max-width: 300px; height: auto;" />
+              <div style="background: black; padding: 1rem; border-radius: 8px; display: inline-block;">
+                <img src="${contact.qrCodeUrl}" alt="QR Code" style="max-width: 300px; height: auto; display: block;" />
+              </div>
               <p style="margin-top: 1rem; color: #666;">${contact.company || ''}</p>
             </div>
           </body>
