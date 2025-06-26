@@ -144,6 +144,7 @@ Changelog:
   * Corrected vCard name parsing to properly separate first/last names for iPhone and Android contacts
   * Fixed Android contact saving - entire name now goes to first name field as requested
   * Added automatic '+' prefix to phone numbers for proper international format
+  * Updated template CSV file to remove address fields and include proper column structure
 ```
 
 ## User Preferences

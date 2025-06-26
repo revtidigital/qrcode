@@ -433,15 +433,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       {
         name: "John Doe",
         email: "john.doe@example.com",
-        phone: "+1-555-123-4567",
+        "primary phone": "1-555-123-4567",
+        "secondary phone": "1-555-987-6543",
         company: "Example Corp",
         position: "Software Engineer",
-        website: "https://johndoe.com",
-        address: "123 Main St",
-        city: "New York",
-        state: "NY",
-        zipcode: "10001",
-        country: "USA"
+        website: "https://johndoe.com"
+      },
+      {
+        name: "Jane Smith",
+        email: "jane.smith@company.com",
+        "primary phone": "91-9876543210",
+        "secondary phone": "91-1234567890",
+        company: "Tech Solutions Inc",
+        position: "Product Manager",
+        website: "https://janesmith.com"
       }
     ];
 
