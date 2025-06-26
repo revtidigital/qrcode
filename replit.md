@@ -142,6 +142,8 @@ Changelog:
   * Improved field mapping UI with smart auto-suggestions and visual feedback
   * Fixed QR code individual download functionality with proper PNG export
   * Corrected vCard name parsing to properly separate first/last names for iPhone and Android contacts
+  * Fixed Android contact saving - entire name now goes to first name field as requested
+  * Added automatic '+' prefix to phone numbers for proper international format
 ```
 
 ## User Preferences

@@ -40,12 +40,14 @@ function generateVCard(contact: any): string {
     lines.push(`EMAIL;INTERNET:${contact.email}`);
   }
   
-  // Phone numbers with Android compatibility
+  // Phone numbers with Android compatibility and international format
   if (contact.phone) {
-    lines.push(`TEL;CELL:${contact.phone}`);
+    const formattedPhone = contact.phone.startsWith('+') ? contact.phone : `+${contact.phone}`;
+    lines.push(`TEL;CELL:${formattedPhone}`);
   }
   if (contact.phone2) {
-    lines.push(`TEL;WORK:${contact.phone2}`);
+    const formattedPhone2 = contact.phone2.startsWith('+') ? contact.phone2 : `+${contact.phone2}`;
+    lines.push(`TEL;WORK:${formattedPhone2}`);
   }
   
   // Organization and title with Android compatibility
