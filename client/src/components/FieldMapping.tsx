@@ -57,7 +57,7 @@ export default function FieldMapping({ headers, preview, batchId, onMappingCompl
   }, [headers]);
 
   const setMappingMutation = useMutation({
-    mutationFn: async (data: { mapping: Record<string, string>; data: any[] }) => {
+    mutationFn: async (data: { mapping: Record<string, string> }) => {
       const response = await apiRequest('POST', `/api/batches/${batchId}/mapping`, data);
       return response.json();
     },
@@ -85,11 +85,9 @@ export default function FieldMapping({ headers, preview, batchId, onMappingCompl
   };
 
   const handleContinue = () => {
-    // Get the full data array (not just preview)
-    // For now, we'll use preview data but in a real app, you'd want to store the full data
+    // Send only the mapping - server will retrieve full data from storage
     setMappingMutation.mutate({
-      mapping,
-      data: preview // This should be the full dataset
+      mapping
     });
   };
 

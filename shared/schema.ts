@@ -25,6 +25,7 @@ export const batches = pgTable("batches", {
   processedContacts: integer("processed_contacts").default(0),
   status: text("status").notNull().default("pending"), // pending, processing, completed, failed
   fieldMapping: jsonb("field_mapping"),
+  rawData: text("raw_data"), // Store complete uploaded data as JSON string
   createdAt: timestamp("created_at").defaultNow(),
 });
 

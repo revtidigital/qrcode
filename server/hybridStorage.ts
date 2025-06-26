@@ -19,6 +19,7 @@ class MemoryFallbackStorage implements IStorage {
       processedContacts: insertBatch.processedContacts || 0,
       status: insertBatch.status || "pending",
       fieldMapping: insertBatch.fieldMapping || null,
+      rawData: insertBatch.rawData || null,
       createdAt: new Date()
     };
     this.batches.set(batch.batchId, batch);

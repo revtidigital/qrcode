@@ -146,6 +146,7 @@ Changelog:
   * Added automatic '+' prefix to phone numbers for proper international format
   * Updated template CSV file to remove address fields and include proper column structure
   * Changed phone number prefix from '+' to '0' for both primary and secondary numbers
+  * Fixed batch processing limitation - now processes complete datasets instead of 5-contact preview limit
 ```
 
 ## User Preferences

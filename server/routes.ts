@@ -115,13 +115,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "No data found in the uploaded file" });
       }
 
-      // Create batch
+      // Create batch with raw data stored
       const batch = await storage.createBatch({
         batchId,
         fileName: originalname,
         totalContacts: data.length,
         status: "pending",
-        fieldMapping: null
+        fieldMapping: null,
+        rawData: JSON.stringify(data)
       });
 
       res.json({ 
@@ -140,10 +141,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/batches/:batchId/mapping", async (req, res) => {
     try {
       const { batchId } = req.params;
-      const { mapping, data } = req.body;
+      const { mapping } = req.body;
 
       // Validate mapping
       const validatedMapping = fieldMappingSchema.parse(mapping);
+
+      // Get batch to retrieve stored data
+      const batch = await storage.getBatch(batchId);
+      if (!batch || !batch.rawData) {
+        return res.status(404).json({ error: "Batch or data not found" });
+      }
+
+      // Parse the stored raw data
+      let fullData;
+      try {
+        fullData = JSON.parse(batch.rawData);
+      } catch (error) {
+        return res.status(400).json({ error: "Invalid stored data format" });
+      }
 
       // Update batch with field mapping
       await storage.updateBatch(batchId, { 
@@ -151,8 +166,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: "processing"
       });
 
-      // Create contacts from mapped data
-      for (const row of data) {
+      // Create contacts from the full dataset using mapping
+      for (const row of fullData) {
         const contactData: any = { batchId };
         
         // Map fields based on user mapping
@@ -168,7 +183,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Update batch status
       await storage.updateBatch(batchId, { 
         status: "mapped",
-        processedContacts: data.length
+        processedContacts: fullData.length
       });
 
       res.json({ success: true });

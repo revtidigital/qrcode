@@ -65,6 +65,7 @@ export class MongoStorage implements IStorage {
       status: batch.status || 'pending',
       processedContacts: batch.processedContacts || 0,
       fieldMapping: batch.fieldMapping || null,
+      rawData: batch.rawData || null,
       createdAt: now
     };
 
