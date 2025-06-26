@@ -149,8 +149,10 @@ Changelog:
   * Fixed batch processing limitation - now processes complete datasets instead of 5-contact preview limit
   * Fixed QR code visibility with black backgrounds in preview grid and popup windows
   * Implemented custom brand colors throughout contact landing pages using client's color palette
-  * Prepared complete deployment configuration for GitHub, Netlify (backend), and Vercel (frontend)
-  * Created comprehensive deployment documentation and build scripts
+  * Updated secondary buttons on contact pages to use #BC412D and #1E3460 brand colors
+  * Prepared complete deployment configuration for custom domain vcard.revtidigital.com
+  * Configured Vercel for frontend (vcard.revtidigital.com) and Netlify for backend API (vcard-api.revtidigital.com)
+  * Created comprehensive deployment documentation and build scripts for production deployment
 ```
 
 ## User Preferences

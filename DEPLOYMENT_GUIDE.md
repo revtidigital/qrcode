@@ -1,4 +1,4 @@
-# Complete Deployment Guide
+# Complete Deployment Guide for vcard.revtidigital.com
 
 ## 🚀 Deploy Your QR Code Generator
 
@@ -18,7 +18,7 @@ git commit -m "Initial commit: QR Code vCard Generator with MongoDB integration"
 git branch -M main
 
 # Add your GitHub repository
-git remote add origin https://github.com/YOUR-USERNAME/qr-vcard-generator.git
+git remote add origin https://github.com/YOUR-USERNAME/vcard-revtidigital.git
 
 # Push to GitHub
 git push -u origin main
@@ -38,13 +38,16 @@ git push -u origin main
    - **Publish directory**: `netlify/functions`
    - **Functions directory**: `netlify/functions`
 
-4. **Environment Variables** (Site Settings > Environment Variables):
+4. **Custom Domain for API**:
+   - After deployment, go to Site Settings > Domain management
+   - Add custom domain: `vcard-api.revtidigital.com`
+   - Configure DNS records as instructed by Netlify
+
+5. **Environment Variables** (Site Settings > Environment Variables):
    ```
    MONGODB_URI=mongodb+srv://revtisoftwares:azFmqnxGJuRTvjPq@vcards.cx8qhoz.mongodb.net/?retryWrites=true&w=majority&appName=vcards
    NODE_VERSION=20
    ```
-
-5. **Deploy**: Click "Deploy site"
 
 ### Step 3: Frontend Deployment on Vercel
 
@@ -61,27 +64,37 @@ git push -u origin main
    - **Output Directory**: `dist`
    - **Install Command**: `npm install`
 
-4. **Environment Variables**:
+4. **Custom Domain Setup**:
+   - After deployment, go to Project Settings > Domains
+   - Add custom domain: `vcard.revtidigital.com`
+   - Configure DNS records as instructed by Vercel
+
+5. **Environment Variables**:
    ```
-   VITE_API_URL=https://YOUR-NETLIFY-SITE.netlify.app
+   VITE_API_URL=https://vcard-api.revtidigital.com
    ```
-   (Replace with actual Netlify URL after step 2)
 
-5. **Deploy**: Click "Deploy"
+### Step 4: DNS Configuration
 
-### Step 4: Final Configuration
+Add these DNS records to your domain provider (revtidigital.com):
 
-1. **Update Frontend Environment**:
-   - After Netlify deployment, copy the backend URL
-   - Go to Vercel project settings
-   - Update `VITE_API_URL` with your Netlify URL
-   - Redeploy frontend
+```
+Type: CNAME
+Name: vcard
+Value: cname.vercel-dns.com
 
-2. **Test Your Application**:
-   - Visit your Vercel frontend URL
+Type: CNAME  
+Name: vcard-api
+Value: [netlify-site-name].netlify.app
+```
+
+### Step 5: Final Testing
+
+1. **Test Your Application**:
+   - Visit https://vcard.revtidigital.com
    - Upload a CSV file
    - Generate QR codes
-   - Test contact landing pages
+   - Test contact landing pages at https://vcard.revtidigital.com/contact/{id}
 
 ## 📝 Configuration Files
 
