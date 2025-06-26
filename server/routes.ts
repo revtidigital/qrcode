@@ -40,13 +40,13 @@ function generateVCard(contact: any): string {
     lines.push(`EMAIL;INTERNET:${contact.email}`);
   }
   
-  // Phone numbers with Android compatibility and international format
+  // Phone numbers with Android compatibility and 0 prefix format
   if (contact.phone) {
-    const formattedPhone = contact.phone.startsWith('+') ? contact.phone : `+${contact.phone}`;
+    const formattedPhone = contact.phone.startsWith('0') ? contact.phone : `0${contact.phone}`;
     lines.push(`TEL;CELL:${formattedPhone}`);
   }
   if (contact.phone2) {
-    const formattedPhone2 = contact.phone2.startsWith('+') ? contact.phone2 : `+${contact.phone2}`;
+    const formattedPhone2 = contact.phone2.startsWith('0') ? contact.phone2 : `0${contact.phone2}`;
     lines.push(`TEL;WORK:${formattedPhone2}`);
   }
   

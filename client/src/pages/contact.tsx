@@ -89,7 +89,7 @@ export default function ContactPage() {
   };
 
   const formatPhoneNumber = (phone: string) => {
-    return phone.startsWith('+') ? phone : `+${phone}`;
+    return phone.startsWith('0') ? phone : `0${phone}`;
   };
 
   const handleCall = (phone: string) => {

@@ -145,6 +145,7 @@ Changelog:
   * Fixed Android contact saving - entire name now goes to first name field as requested
   * Added automatic '+' prefix to phone numbers for proper international format
   * Updated template CSV file to remove address fields and include proper column structure
+  * Changed phone number prefix from '+' to '0' for both primary and secondary numbers
 ```
 
 ## User Preferences

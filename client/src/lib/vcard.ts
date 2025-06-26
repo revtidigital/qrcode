@@ -26,13 +26,13 @@ export function generateVCard(contact: VCardContact): string {
     lines.push(`EMAIL;INTERNET:${contact.email}`);
   }
   
-  // Phone numbers with automatic '+' prefix and Android compatibility
+  // Phone numbers with automatic '0' prefix and Android compatibility
   if (contact.phone) {
-    const formattedPhone = contact.phone.startsWith('+') ? contact.phone : `+${contact.phone}`;
+    const formattedPhone = contact.phone.startsWith('0') ? contact.phone : `0${contact.phone}`;
     lines.push(`TEL;CELL:${formattedPhone}`);
   }
   if (contact.phone2) {
-    const formattedPhone2 = contact.phone2.startsWith('+') ? contact.phone2 : `+${contact.phone2}`;
+    const formattedPhone2 = contact.phone2.startsWith('0') ? contact.phone2 : `0${contact.phone2}`;
     lines.push(`TEL;WORK:${formattedPhone2}`);
   }
   
