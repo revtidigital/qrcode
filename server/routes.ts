@@ -19,39 +19,20 @@ const upload = multer({
 function generateVCard(contact: any): string {
   const lines = ['BEGIN:VCARD', 'VERSION:2.1'];
   
-  // Name is required - Android-specific formatting
+  // Name is required - put entire name in first name field for both iOS/Android
   if (contact.name) {
     const fullName = contact.name.trim();
-    const nameParts = fullName.split(/\s+/);
     
-    let firstName = '';
-    let lastName = '';
-    
-    if (nameParts.length === 1) {
-      firstName = nameParts[0];
-      lastName = '';
-    } else if (nameParts.length === 2) {
-      firstName = nameParts[0];
-      lastName = nameParts[1];
-    } else {
-      // For names with more than 2 parts, first word is first name, rest is last name
-      firstName = nameParts[0];
-      lastName = nameParts.slice(1).join(' ');
-    }
-    
-    // For Android compatibility, use simple escaping and ensure proper order
-    const cleanFirstName = firstName.replace(/[;,\\]/g, ' ').trim();
-    const cleanLastName = lastName.replace(/[;,\\]/g, ' ').trim();
+    // Clean the full name for vCard compatibility
     const cleanFullName = fullName.replace(/[;,\\]/g, ' ').trim();
     
-    // Android prefers N field before FN field and specific formatting
-    lines.push(`N:${cleanLastName};${cleanFirstName};;;`);
+    // Put entire name in first name field, leave last name empty
+    // N field format: Last;First;Middle;Prefix;Suffix
+    lines.push(`N:;${cleanFullName};;;`);
     lines.push(`FN:${cleanFullName}`);
     
-    // Add Android-specific name fields for better compatibility
-    if (cleanFirstName) {
-      lines.push(`X-ANDROID-CUSTOM:vnd.android.cursor.item/name;${cleanFirstName};1;;;;;;;;;;;;;`);
-    }
+    // Add Android-specific name field with full name in first name position
+    lines.push(`X-ANDROID-CUSTOM:vnd.android.cursor.item/name;${cleanFullName};1;;;;;;;;;;;;;`);
   }
   
   // Email with Android/iOS compatibility
