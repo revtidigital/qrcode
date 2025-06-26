@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Lock, User } from "lucide-react";
 
 interface LoginFormProps {
-  onLogin: (success: boolean) => void;
+  onLogin: () => void;
 }
 
 export default function LoginForm({ onLogin }: LoginFormProps) {
@@ -23,18 +23,18 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
     // Simple client-side authentication
     if (username === "admin" && password === "admin@2025") {
       localStorage.setItem("qr_auth", "authenticated");
-      onLogin(true);
       toast({
         title: "Login successful",
         description: "Welcome to QR Code Generator",
       });
+      // Call onLogin to trigger state update
+      onLogin();
     } else {
       toast({
         title: "Login failed",
         description: "Invalid username or password",
         variant: "destructive",
       });
-      onLogin(false);
     }
 
     setIsLoading(false);

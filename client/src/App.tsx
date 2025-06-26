@@ -12,10 +12,10 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 
 function Router() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, login } = useAuth();
 
   if (!isAuthenticated) {
-    return <LoginForm onLogin={() => {}} />;
+    return <LoginForm onLogin={login} />;
   }
 
   return (
