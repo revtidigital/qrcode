@@ -147,12 +147,6 @@ Changelog:
   * Updated template CSV file to remove address fields and include proper column structure
   * Changed phone number prefix from '+' to '0' for both primary and secondary numbers
   * Fixed batch processing limitation - now processes complete datasets instead of 5-contact preview limit
-  * Fixed QR code visibility with black backgrounds in preview grid and popup windows
-  * Implemented custom brand colors throughout contact landing pages using client's color palette
-  * Updated secondary buttons on contact pages to use #BC412D and #1E3460 brand colors
-  * Prepared complete deployment configuration for custom domain vcard.revtidigital.com
-  * Configured Vercel for frontend (vcard.revtidigital.com) and Netlify for backend API (vcard-api.revtidigital.com)
-  * Created comprehensive deployment documentation and build scripts for production deployment
 ```
 
 ## User Preferences

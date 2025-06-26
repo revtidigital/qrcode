@@ -7,20 +7,14 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
-const getApiUrl = () => {
-  return import.meta.env.VITE_API_URL || '';
-};
-
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
   const isFormData = data instanceof FormData;
-  const apiUrl = getApiUrl();
-  const fullUrl = url.startsWith('http') ? url : `${apiUrl}${url}`;
   
-  const res = await fetch(fullUrl, {
+  const res = await fetch(url, {
     method,
     headers: data && !isFormData ? { "Content-Type": "application/json" } : {},
     body: isFormData ? data : data ? JSON.stringify(data) : undefined,
@@ -37,11 +31,7 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const apiUrl = getApiUrl();
-    const url = queryKey[0] as string;
-    const fullUrl = url.startsWith('http') ? url : `${apiUrl}${url}`;
-    
-    const res = await fetch(fullUrl, {
+    const res = await fetch(queryKey[0] as string, {
       credentials: "include",
     });
 
