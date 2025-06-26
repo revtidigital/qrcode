@@ -284,6 +284,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Download individual QR code as PNG
+  app.get("/api/qr/:contactId/download", async (req, res) => {
+    try {
+      const contactId = parseInt(req.params.contactId);
+      console.log("QR download requested for contact ID:", contactId);
+      
+      if (isNaN(contactId)) {
+        console.log("Invalid contact ID:", req.params.contactId);
+        return res.status(400).json({ error: "Invalid contact ID" });
+      }
+
+      const foundContact = await storage.getContactById(contactId);
+      console.log("Contact found:", foundContact ? "Yes" : "No");
+
+      if (!foundContact) {
+        console.log("Contact not found for ID:", contactId);
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      if (!foundContact.qrCodeUrl) {
+        console.log("QR code URL not found for contact:", contactId);
+        return res.status(404).json({ error: "QR code not found for this contact" });
+      }
+
+      console.log("QR code URL exists, length:", foundContact.qrCodeUrl.length);
+      
+      // Extract base64 data from data URL
+      const base64Data = foundContact.qrCodeUrl.replace(/^data:image\/png;base64,/, '');
+      const buffer = Buffer.from(base64Data, 'base64');
+      
+      const fileName = `qr-${(foundContact.name || 'contact').replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_')}.png`;
+      
+      console.log("Sending QR image, buffer size:", buffer.length, "filename:", fileName);
+      
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.setHeader('Content-Length', buffer.length.toString());
+      
+      res.send(buffer);
+    } catch (error: any) {
+      console.error("QR download error:", error.message);
+      console.error("Stack trace:", error.stack);
+      res.status(500).json({ error: "Failed to download QR code" });
+    }
+  });
+
   // Get batch details
   app.get("/api/batches/:batchId", async (req, res) => {
     try {
