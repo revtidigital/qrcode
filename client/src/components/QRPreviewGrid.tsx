@@ -178,11 +178,13 @@ export default function QRPreviewGrid({ batchId, onReset }: QRPreviewGridProps) 
                   key={contact.id}
                   className="bg-gray-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow"
                 >
-                  <img
-                    src={contact.qrCodeUrl}
-                    alt={`QR Code for ${contact.name}`}
-                    className="w-20 h-20 mx-auto mb-3 border rounded"
-                  />
+                  <div className="w-20 h-20 mx-auto mb-3 bg-black rounded border p-1">
+                    <img
+                      src={contact.qrCodeUrl}
+                      alt={`QR Code for ${contact.name}`}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                   <h4 className="font-medium text-sm text-primary-custom truncate">
                     {contact.name || 'Unnamed Contact'}
                   </h4>
