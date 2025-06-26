@@ -19,11 +19,33 @@ const upload = multer({
 function generateVCard(contact: any): string {
   const lines = ['BEGIN:VCARD', 'VERSION:3.0'];
   
-  // Name is required - properly escape and format for iOS
+  // Name is required - properly parse and format for iOS/Android
   if (contact.name) {
-    const name = contact.name.replace(/[,;\\]/g, '\\$&'); // Escape special characters
-    lines.push(`FN:${name}`);
-    lines.push(`N:${name};;;;`); // Last;First;Middle;Prefix;Suffix
+    const fullName = contact.name.trim();
+    const nameParts = fullName.split(/\s+/);
+    
+    let firstName = '';
+    let lastName = '';
+    
+    if (nameParts.length === 1) {
+      firstName = nameParts[0];
+      lastName = '';
+    } else if (nameParts.length === 2) {
+      firstName = nameParts[0];
+      lastName = nameParts[1];
+    } else {
+      // For names with more than 2 parts, first word is first name, rest is last name
+      firstName = nameParts[0];
+      lastName = nameParts.slice(1).join(' ');
+    }
+    
+    // Escape special characters
+    const escapedFirstName = firstName.replace(/[,;\\]/g, '\\$&');
+    const escapedLastName = lastName.replace(/[,;\\]/g, '\\$&');
+    const escapedFullName = fullName.replace(/[,;\\]/g, '\\$&');
+    
+    lines.push(`FN:${escapedFullName}`);
+    lines.push(`N:${escapedLastName};${escapedFirstName};;;`); // Last;First;Middle;Prefix;Suffix
   }
   
   // Email with proper iOS formatting

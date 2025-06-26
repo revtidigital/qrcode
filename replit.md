@@ -131,7 +131,7 @@ Changelog:
   * Removed logo and company name from contact page header per user request
   * Removed all address-related fields (address, city, state, country, zipcode) from entire codebase
   * Simplified contact schema to focus on essential contact information only
-- June 26, 2025. MongoDB Integration:
+- June 26, 2025. MongoDB Integration & UI Improvements:
   * Implemented MongoDB M0 integration for persistent data storage
   * Created hybrid storage system with automatic fallback to in-memory storage
   * Successfully resolved MongoDB Atlas SSL/TLS connection issues
@@ -139,6 +139,9 @@ Changelog:
   * Database collections configured: batches and contacts in vcards_icul database
   * Fixed iOS vCard download compatibility with proper MIME types and headers
   * Enhanced vCard format for better cross-platform contact import support
+  * Improved field mapping UI with smart auto-suggestions and visual feedback
+  * Fixed QR code individual download functionality with proper PNG export
+  * Corrected vCard name parsing to properly separate first/last names for iPhone and Android contacts
 ```
 
 ## User Preferences
