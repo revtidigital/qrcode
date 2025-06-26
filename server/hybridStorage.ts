@@ -101,14 +101,22 @@ export class HybridStorage implements IStorage {
 
   private async ensureConnection(): Promise<void> {
     if (!this.connectionAttempted) {
+      console.log('Attempting MongoDB connection...');
       try {
         await this.mongoStorage.connect();
         this.useMongoDb = true;
-        console.log('Using MongoDB for persistent storage');
-      } catch (error) {
-        console.warn('MongoDB connection failed, falling back to in-memory storage:', error);
+        console.log('✓ Successfully connected to MongoDB - data will persist');
+      } catch (error: any) {
+        console.error('✗ MongoDB connection failed:', error.message);
+        if (error.message.includes('ssl3_read_bytes') || error.message.includes('tlsv1 alert')) {
+          console.log('  This appears to be an SSL/TLS configuration issue with MongoDB Atlas');
+          console.log('  Common solutions:');
+          console.log('  1. Ensure your IP address is whitelisted in MongoDB Atlas Network Access');
+          console.log('  2. Try using a different network or VPN');
+          console.log('  3. Contact MongoDB support for SSL configuration help');
+        }
         this.useMongoDb = false;
-        console.log('Using in-memory storage (data will not persist between restarts)');
+        console.log('⚠ Using in-memory storage - QR codes will not persist between restarts');
       }
       this.connectionAttempted = true;
     }

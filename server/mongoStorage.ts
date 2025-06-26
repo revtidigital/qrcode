@@ -15,16 +15,12 @@ export class MongoStorage implements IStorage {
       throw new Error('MONGODB_URI environment variable is required');
     }
     
-    // Configure MongoDB client with proper SSL options for Atlas
+    // Configure MongoDB client for Atlas compatibility
     this.client = new MongoClient(mongoUri, {
-      tls: true,
-      tlsAllowInvalidCertificates: false,
-      tlsAllowInvalidHostnames: false,
       retryWrites: true,
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 10000,
-      heartbeatFrequencyMS: 10000,
-      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 15000,
+      maxPoolSize: 5,
     });
     this.db = this.client.db('vcards_icul');
     this.batchesCollection = this.db.collection('batches');
