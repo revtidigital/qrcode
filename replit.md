@@ -134,9 +134,11 @@ Changelog:
 - June 26, 2025. MongoDB Integration:
   * Implemented MongoDB M0 integration for persistent data storage
   * Created hybrid storage system with automatic fallback to in-memory storage
-  * MongoDB connection currently experiencing SSL/TLS authentication issues with Atlas
-  * Application functioning with temporary in-memory storage until connection resolved
+  * Successfully resolved MongoDB Atlas SSL/TLS connection issues
+  * QR codes and contact data now persist across application restarts
   * Database collections configured: batches and contacts in vcards_icul database
+  * Fixed iOS vCard download compatibility with proper MIME types and headers
+  * Enhanced vCard format for better cross-platform contact import support
 ```
 
 ## User Preferences

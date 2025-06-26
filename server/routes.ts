@@ -19,39 +19,47 @@ const upload = multer({
 function generateVCard(contact: any): string {
   const lines = ['BEGIN:VCARD', 'VERSION:3.0'];
   
-  // Name is required
+  // Name is required - properly escape and format for iOS
   if (contact.name) {
-    lines.push(`FN:${contact.name}`);
-    lines.push(`N:${contact.name};;;;`); // Last;First;Middle;Prefix;Suffix
+    const name = contact.name.replace(/[,;\\]/g, '\\$&'); // Escape special characters
+    lines.push(`FN:${name}`);
+    lines.push(`N:${name};;;;`); // Last;First;Middle;Prefix;Suffix
   }
   
-  // Email
+  // Email with proper iOS formatting
   if (contact.email) {
-    lines.push(`EMAIL;TYPE=INTERNET:${contact.email}`);
+    lines.push(`EMAIL;TYPE=INTERNET,PREF:${contact.email}`);
   }
   
-  // Phone numbers
+  // Phone numbers with iOS-preferred formatting
   if (contact.phone) {
-    lines.push(`TEL;TYPE=CELL:${contact.phone}`);
+    lines.push(`TEL;TYPE=CELL,VOICE,PREF:${contact.phone}`);
   }
   if (contact.phone2) {
-    lines.push(`TEL;TYPE=WORK:${contact.phone2}`);
+    lines.push(`TEL;TYPE=WORK,VOICE:${contact.phone2}`);
   }
   
-  // Organization and title
+  // Organization and title with proper escaping
   if (contact.company) {
-    lines.push(`ORG:${contact.company}`);
+    const company = contact.company.replace(/[,;\\]/g, '\\$&');
+    lines.push(`ORG:${company}`);
   }
   if (contact.position) {
-    lines.push(`TITLE:${contact.position}`);
+    const position = contact.position.replace(/[,;\\]/g, '\\$&');
+    lines.push(`TITLE:${position}`);
   }
   
-  // Website
+  // Website with proper URL formatting
   if (contact.website) {
-    lines.push(`URL:${contact.website}`);
+    let website = contact.website;
+    if (!website.startsWith('http://') && !website.startsWith('https://')) {
+      website = 'https://' + website;
+    }
+    lines.push(`URL;TYPE=WORK:${website}`);
   }
   
-
+  // Add unique identifier for iOS compatibility
+  lines.push(`UID:${contact.id}-${Date.now()}`);
   
   lines.push('END:VCARD');
   
@@ -243,28 +251,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const contactId = parseInt(req.params.contactId);
       if (isNaN(contactId)) {
+        console.log("Invalid contact ID:", req.params.contactId);
         return res.status(400).json({ error: "Invalid contact ID" });
       }
 
-      // Find contact across all batches
-      let foundContact = null;
-      const allContacts = Array.from((storage as any).contacts.values()) as any[];
-      foundContact = allContacts.find(c => c.id === contactId);
+      console.log("Attempting to get contact:", contactId);
+      const foundContact = await storage.getContactById(contactId);
 
       if (!foundContact) {
+        console.log("Contact not found:", contactId);
         return res.status(404).json({ error: "Contact not found" });
       }
 
+      console.log("Contact found, generating vCard for:", foundContact.name);
       const vCardData = generateVCard(foundContact);
       
-      // iOS-compatible headers
-      res.setHeader('Content-Type', 'text/x-vcard; charset=utf-8');
-      res.setHeader('Content-Disposition', `attachment; filename="${(foundContact.name || 'contact').replace(/[^a-zA-Z0-9]/g, '_')}.vcf"`);
-      res.setHeader('Cache-Control', 'no-cache');
+      // Enhanced iOS-compatible headers
+      res.setHeader('Content-Type', 'text/vcard; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${(foundContact.name || 'contact').replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_')}.vcf"`);
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+      res.setHeader('Accept-Ranges', 'bytes');
+      res.setHeader('Content-Length', Buffer.byteLength(vCardData, 'utf8').toString());
+      
+      console.log("Sending vCard data, length:", vCardData.length);
       res.send(vCardData);
-    } catch (error) {
-      console.error("vCard download error:", error);
+    } catch (error: any) {
+      console.error("vCard download error:", error.message);
+      console.error("Stack trace:", error.stack);
       res.status(500).json({ error: "Failed to download vCard" });
     }
   });
