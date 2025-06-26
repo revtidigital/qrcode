@@ -88,8 +88,13 @@ export default function ContactPage() {
     }
   };
 
+  const formatPhoneNumber = (phone: string) => {
+    return phone.startsWith('+') ? phone : `+${phone}`;
+  };
+
   const handleCall = (phone: string) => {
-    window.location.href = `tel:${phone}`;
+    const formattedPhone = formatPhoneNumber(phone);
+    window.location.href = `tel:${formattedPhone}`;
   };
 
   const handleEmail = (email: string) => {
@@ -212,7 +217,7 @@ export default function ContactPage() {
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone {contact.phone2 ? '(Primary)' : ''}</p>
-                      <p className="text-lg font-semibold text-gray-900">{contact.phone}</p>
+                      <p className="text-lg font-semibold text-gray-900">{formatPhoneNumber(contact.phone)}</p>
                     </div>
                   </div>
                 )}
@@ -224,7 +229,7 @@ export default function ContactPage() {
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone (Secondary)</p>
-                      <p className="text-lg font-semibold text-gray-900">{contact.phone2}</p>
+                      <p className="text-lg font-semibold text-gray-900">{formatPhoneNumber(contact.phone2)}</p>
                     </div>
                   </div>
                 )}

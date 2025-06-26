@@ -9,33 +9,41 @@ export interface VCardContact {
 }
 
 export function generateVCard(contact: VCardContact): string {
-  const lines = ['BEGIN:VCARD', 'VERSION:3.0'];
+  const lines = ['BEGIN:VCARD', 'VERSION:2.1'];
   
-  // Name is required
+  // Name is required - put entire name in first name field for both iOS and Android
   if (contact.name) {
-    lines.push(`FN:${contact.name}`);
-    lines.push(`N:${contact.name};;;;`); // Last;First;Middle;Prefix;Suffix
+    const cleanFullName = contact.name.trim().replace(/[;,\\]/g, ' ').trim();
+    // Put entire name in first name field, leave last name empty
+    lines.push(`N:;${cleanFullName};;;`);
+    lines.push(`FN:${cleanFullName}`);
+    // Add Android-specific name field
+    lines.push(`X-ANDROID-CUSTOM:vnd.android.cursor.item/name;${cleanFullName};1;;;;;;;;;;;;;`);
   }
   
-  // Email
+  // Email with Android compatibility
   if (contact.email) {
-    lines.push(`EMAIL;TYPE=INTERNET:${contact.email}`);
+    lines.push(`EMAIL;INTERNET:${contact.email}`);
   }
   
-  // Phone numbers
+  // Phone numbers with automatic '+' prefix and Android compatibility
   if (contact.phone) {
-    lines.push(`TEL;TYPE=CELL:${contact.phone}`);
+    const formattedPhone = contact.phone.startsWith('+') ? contact.phone : `+${contact.phone}`;
+    lines.push(`TEL;CELL:${formattedPhone}`);
   }
   if (contact.phone2) {
-    lines.push(`TEL;TYPE=WORK:${contact.phone2}`);
+    const formattedPhone2 = contact.phone2.startsWith('+') ? contact.phone2 : `+${contact.phone2}`;
+    lines.push(`TEL;WORK:${formattedPhone2}`);
   }
   
-  // Organization and title
+  // Organization and title with Android compatibility
   if (contact.company) {
-    lines.push(`ORG:${contact.company}`);
+    const company = contact.company.replace(/[;,\\]/g, ' ').trim();
+    lines.push(`ORG:${company}`);
   }
   if (contact.position) {
-    lines.push(`TITLE:${contact.position}`);
+    const position = contact.position.replace(/[;,\\]/g, ' ').trim();
+    lines.push(`TITLE:${position}`);
   }
   
   // Website
