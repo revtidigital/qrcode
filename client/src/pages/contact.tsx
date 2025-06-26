@@ -110,7 +110,7 @@ export default function ContactPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#CBD9E9] to-[#104E83] p-4">
         <div className="max-w-md mx-auto pt-8">
           <Card>
             <CardContent className="p-6">
@@ -129,15 +129,15 @@ export default function ContactPage() {
 
   if (error || !contact) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 p-4 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#CBD9E9] to-[#104E83] p-4 flex items-center justify-center">
         <Card className="max-w-md w-full">
           <CardContent className="p-6 text-center">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <User className="h-8 w-8 text-red-600" />
+            <div className="w-16 h-16 bg-[#BC412D]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <User className="h-8 w-8 text-[#BC412D]" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-2">Contact Not Found</h2>
             <p className="text-gray-600 mb-4">The contact you're looking for doesn't exist or has been removed.</p>
-            <Button onClick={() => window.location.href = '/'} variant="outline">
+            <Button onClick={() => window.location.href = '/'} variant="outline" className="border-[#1E3460] text-[#1E3460] hover:bg-[#1E3460] hover:text-white">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Go Back
             </Button>
@@ -149,11 +149,11 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header with enhanced gradient */}
-      <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-teal-500 text-white overflow-hidden">
+      {/* Header with brand colors gradient */}
+      <div className="relative bg-gradient-to-br from-[#1E3460] via-[#104E83] to-[#BC412D] text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute top-0 left-0 w-72 h-72 bg-white/10 rounded-full -translate-x-36 -translate-y-36"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-48 translate-y-48"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#D35D30]/20 rounded-full translate-x-48 translate-y-48"></div>
         
         <div className="relative max-w-md mx-auto text-center px-6 py-12">
           <div className="w-28 h-28 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg ring-4 ring-white/20">
@@ -176,7 +176,7 @@ export default function ContactPage() {
                 {contact.phone && (
                   <Button
                     onClick={() => handleCall(contact.phone!)}
-                    className="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white h-16 flex flex-col gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                    className="bg-gradient-to-r from-[#1E3460] to-[#104E83] hover:from-[#104E83] hover:to-[#1E3460] text-white h-16 flex flex-col gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
                   >
                     <Phone className="h-5 w-5" />
                     <span className="text-sm font-medium">Call</span>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                 {contact.website && (
                   <Button
                     onClick={() => handleWebsite(contact.website!)}
-                    className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white h-16 flex flex-col gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                    className="bg-gradient-to-r from-[#BC412D] to-[#D35D30] hover:from-[#D35D30] hover:to-[#BC412D] text-white h-16 flex flex-col gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
                   >
                     <Globe className="h-5 w-5" />
                     <span className="text-sm font-medium">Website</span>
@@ -198,7 +198,7 @@ export default function ContactPage() {
                 <div className="mt-4">
                   <Button
                     onClick={() => handleCall(contact.phone2!)}
-                    className="w-full bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 text-white h-12 flex items-center justify-center gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
+                    className="w-full bg-gradient-to-r from-[#D35D30] to-[#BC412D] hover:from-[#BC412D] hover:to-[#D35D30] text-white h-12 flex items-center justify-center gap-2 shadow-lg transform hover:scale-105 transition-all duration-200"
                   >
                     <Phone className="h-4 w-4" />
                     <span className="text-sm font-medium">Call Secondary</span>
@@ -211,9 +211,9 @@ export default function ContactPage() {
             <div className="px-6 pb-6">
               <div className="space-y-1">
                 {contact.phone && (
-                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer" onClick={() => handleCall(contact.phone!)}>
-                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
-                      <Phone className="h-5 w-5 text-indigo-600" />
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#CBD9E9]/30 transition-colors group cursor-pointer" onClick={() => handleCall(contact.phone!)}>
+                    <div className="w-10 h-10 bg-[#1E3460]/10 rounded-lg flex items-center justify-center group-hover:bg-[#1E3460]/20 transition-colors">
+                      <Phone className="h-5 w-5 text-[#1E3460]" />
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone {contact.phone2 ? '(Primary)' : ''}</p>
@@ -223,9 +223,9 @@ export default function ContactPage() {
                 )}
 
                 {contact.phone2 && (
-                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer" onClick={() => handleCall(contact.phone2!)}>
-                    <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center group-hover:bg-violet-200 transition-colors">
-                      <Phone className="h-5 w-5 text-violet-600" />
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#CBD9E9]/30 transition-colors group cursor-pointer" onClick={() => handleCall(contact.phone2!)}>
+                    <div className="w-10 h-10 bg-[#D35D30]/10 rounded-lg flex items-center justify-center group-hover:bg-[#D35D30]/20 transition-colors">
+                      <Phone className="h-5 w-5 text-[#D35D30]" />
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone (Secondary)</p>
@@ -236,11 +236,11 @@ export default function ContactPage() {
 
                 {contact.email && (
                   <div 
-                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group cursor-pointer"
+                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#CBD9E9]/30 transition-colors group cursor-pointer"
                     onClick={() => handleEmail(contact.email!)}
                   >
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                      <Mail className="h-5 w-5 text-blue-600" />
+                    <div className="w-10 h-10 bg-[#104E83]/10 rounded-lg flex items-center justify-center group-hover:bg-[#104E83]/20 transition-colors">
+                      <Mail className="h-5 w-5 text-[#104E83]" />
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Email</p>
@@ -250,9 +250,9 @@ export default function ContactPage() {
                 )}
 
                 {contact.company && (
-                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group">
-                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                      <Building className="h-5 w-5 text-purple-600" />
+                  <div className="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#CBD9E9]/30 transition-colors group">
+                    <div className="w-10 h-10 bg-[#BC412D]/10 rounded-lg flex items-center justify-center group-hover:bg-[#BC412D]/20 transition-colors">
+                      <Building className="h-5 w-5 text-[#BC412D]" />
                     </div>
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Company</p>
@@ -269,7 +269,7 @@ export default function ContactPage() {
             <div className="p-6 pt-0">
               <Button
                 onClick={handleSaveToContacts}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white h-14 shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-lg"
+                className="w-full bg-gradient-to-r from-[#BC412D] to-[#D35D30] hover:from-[#D35D30] hover:to-[#BC412D] text-white h-14 shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold text-lg"
                 size="lg"
               >
                 <Download className="h-6 w-6 mr-3" />
@@ -280,7 +280,7 @@ export default function ContactPage() {
               <div className="mt-3 text-center">
                 <a 
                   href={`/api/contacts/${contact.id}/vcard`}
-                  className="text-sm text-gray-600 hover:text-gray-800 underline"
+                  className="text-sm text-[#1E3460] hover:text-[#104E83] underline"
                   download={`${contact.name || 'contact'}.vcf`}
                 >
                   Direct vCard Download
@@ -295,7 +295,7 @@ export default function ContactPage() {
           <Button 
             onClick={() => window.location.href = '/'}
             variant="ghost"
-            className="text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 font-medium transition-all duration-200"
+            className="text-[#1E3460] hover:text-[#104E83] hover:bg-[#CBD9E9]/30 font-medium transition-all duration-200"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to QR Generator
