@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { storage } from '../../../server/storage';
+import { storage } from '../../../server/storage.js';
 import QRCode from 'qrcode';
-import { generateVCard } from '../../../server/lib/vcard';
+import { generateVCard } from '../../../server/lib/vcard.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { batchId } = req.query;
