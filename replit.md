@@ -95,18 +95,17 @@ MongoDB Collections:
 ### Development Environment
 - **Replit Integration**: Configured for Replit with proper modules and build commands
 - **Hot Reload**: Vite HMR for frontend, tsx for backend development
-- **Database**: MongoDB Atlas for persistent data storage
+- **Database**: PostgreSQL 16 provisioned through Replit
 
 ### Build Process
-- Frontend builds to `client/dist` for static asset serving
-- Backend runs as serverless functions on Vercel
+- Frontend builds to `dist/public` for static asset serving
+- Backend bundles with esbuild for production deployment
 - Environment-specific configurations for development vs production
 
 ### Production Deployment
-- **Vercel Full-Stack**: Backend and frontend deployed together
-- **Serverless Functions**: Express routes converted to Vercel functions
-- **Database**: MongoDB Atlas connection via MONGODB_URI environment variable
-- **Static Assets**: Served from client/dist directory
+- Autoscale deployment target on Replit
+- Static assets served by Express in production
+- Database connection via environment variable (DATABASE_URL)
 
 ## Changelog
 
