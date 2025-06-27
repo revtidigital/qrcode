@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { storage } from '../../../server/storage';
-import { generateVCard } from '../../../server/lib/vcard';
+import { storage } from '../../../server/storage.js';
+import { generateVCard } from '../../../server/lib/vcard.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { contactId } = req.query;
