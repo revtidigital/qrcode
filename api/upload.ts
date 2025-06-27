@@ -68,6 +68,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (error) {
     console.error('Upload error:', error);
-    res.status(500).json({ error: 'Upload failed' });
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : 'No stack trace',
+      mongoUri: process.env.MONGODB_URI ? 'Present' : 'Missing'
+    });
+    res.status(500).json({ 
+      error: 'Upload failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 }
