@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(240, 10%, 3.9%);
+  --muted: hsl(210, 40%, 98%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 3.9%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 10%, 3.9%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(248, 80%, 68%);
+  --primary-foreground: hsl(213, 100%, 99%);
+  --secondary: hsl(160, 84%, 39%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(43, 96%, 56%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(248, 80%, 68%);
+  --radius: 0.5rem;
+
+  /* Custom colors matching design */
+  --primary: hsl(248, 80%, 68%); /* #6366F1 */
+  --secondary: hsl(160, 84%, 39%); /* #10B981 */
+  --background-light: hsl(210, 40%, 98%); /* #F9FAFB */
+  --text-primary: hsl(217, 91%, 10%); /* #111827 */
+  --accent: hsl(43, 96%, 56%); /* #F59E0B */
+  --success: hsl(158, 90%, 38%); /* #059669 */
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(248, 80%, 68%);
+  --primary-foreground: hsl(213, 100%, 99%);
+  --secondary: hsl(160, 84%, 39%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(43, 96%, 56%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background: hsl(210, 40%, 98%); /* #F9FAFB */
+    color: hsl(217, 91%, 10%); /* #111827 */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-background-light {
+    background-color: hsl(210, 40%, 98%);
+  }
+  
+  .text-primary-custom {
+    color: hsl(217, 91%, 10%);
+  }
+  
+  .bg-primary-custom {
+    background-color: hsl(248, 80%, 68%);
+  }
+  
+  .bg-secondary-custom {
+    background-color: hsl(160, 84%, 39%);
+  }
+  
+  .bg-accent-custom {
+    background-color: hsl(43, 96%, 56%);
+  }
+  
+  .bg-success-custom {
+    background-color: hsl(158, 90%, 38%);
+  }
+  
+  .text-success-custom {
+    color: hsl(158, 90%, 38%);
+  }
+}
