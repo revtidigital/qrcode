@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { storage } from '../../../server/storage';
-import { parseFile } from '../../../server/lib/fileParser';
-import { fieldMappingSchema } from '../../../shared/schema';
+import { storage } from '../../../server/storage.js';
+import { parseFile } from '../../../server/lib/fileParser.js';
+import { fieldMappingSchema } from '../../../shared/schema.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { batchId } = req.query;
