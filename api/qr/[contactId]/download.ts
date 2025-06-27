@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { storage } from '../../../server/storage';
+import { storage } from '../../../server/storage.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { contactId } = req.query;
