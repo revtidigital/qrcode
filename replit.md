@@ -147,6 +147,17 @@ Changelog:
   * Updated template CSV file to remove address fields and include proper column structure
   * Changed phone number prefix from '+' to '0' for both primary and secondary numbers
   * Fixed batch processing limitation - now processes complete datasets instead of 5-contact preview limit
+- June 27, 2025. Brand Colors & Vercel Deployment Setup:
+  * Applied custom brand colors (#BC412D, #D35D30, #1E3460, #104E83, #CBD9E9) to contact landing pages
+  * Updated header gradients, action buttons, and UI elements with brand color scheme
+  * Fixed QR code visibility issues by adding black backgrounds in preview components
+  * Restructured project for Vercel serverless deployment
+  * Created API endpoints in /api directory for serverless functions
+  * Added proper build configuration with client/package.json and vercel.json
+  * Implemented file upload, batch processing, and QR generation endpoints
+  * Set up MongoDB connection for serverless environment
+  * Added comprehensive deployment documentation and README
+  * Project now ready for GitHub + Vercel deployment workflow
 ```
 
 ## User Preferences
