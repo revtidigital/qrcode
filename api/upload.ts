@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import multer from 'multer';
-import { parseFile } from '../server/lib/fileParser';
+import { parseFile, validateContactData } from '../../server/lib/fileParser';
 import { storage } from '../server/storage';
 import { nanoid } from 'nanoid';
 
